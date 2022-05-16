@@ -1,0 +1,126 @@
+include ../user/top.jade 
+                link(rel='stylesheet',href='../css/management.css')           
+                .upload
+                        .prodmg(style="border:1px;margin-left:30px;margin-bottom: 50px;")
+                                h2 상품등록
+                                form#sfrm(method="post" enctype="multipart/form-data" )
+                                        .table
+                                                table
+                                                        tbody
+                                                                tr
+                                                                        th 상품이미지
+                                                                        td
+                                                                                input#simg(type='file' name="simg" accept=".jpg,.jpeg,.png,.gif,.bmp")
+                                                                input(name="no" style="display:none;")
+                                form#frm(action="/admin/productupload" method="post")
+                                        .table
+                                                table
+                                                        tbody
+                                                                tr
+                                                                tr
+                                                                        th 상품이름
+                                                                        td: input(type='text' style="width: 250px;" name="name")
+                                                                tr
+                                                                tr
+                                                                        th 제조사
+                                                                        td: select#color.justselect(name='comp')
+                                                                                        option(value='Nikon') Nikon
+                                                                                        option(value='Canon') Canon
+                                                                                        option(value='Sony') Sony
+                                                                                        option(value='Lens') Lens
+                                                                                        option(value='Accessory') Accessory
+                                                                tr 
+                                                                        th 재고량
+                                                                        td: input(type='text' style="width: 250px;" name="stock")
+                                                                        th 가격 
+                                                                        td: input(type='text' style="width: 250px;" name="price") 
+                                                                tr
+                                                                        th 상품정보
+                                                                        td: textarea#explan(name="text" cols="32", rows="12")
+                                                                        input(name="no" style="display:none;")
+                                form#sfrm2(method="post" enctype="multipart/form-data" )
+                                        .table
+                                                table
+                                                        tbody
+                                                                tr(style="border-bottom:#777 1px solid;")
+                                                                        th 상품정보 이미지
+                                                                        td
+                                                                                input#simg2(type='file' name="simg2" accept=".jpg,.jpeg,.png,.gif,.bmp")
+                                                                input(name="no" style="display:none;" )
+                                                                        
+                                .uploadbtn
+                                        a.rainbtn#upload(alt="등록" style="margin: 10px 585px;")
+                                        a.rainbtn(href="/admin/product" alt="취소" style="margin-left:490px;margin-top: -50px;")
+include ../user/bot.jade            
+        script.
+                $.ajax({
+                        url:"/admin/getnum",
+                        type:"post",
+                        success: function(result){
+                                var no=result.num;
+                                $("#sfrm")[0][0].value=no;
+                                $("#sfrm2")[0][0].value=no;
+                        }
+                })
+                $("#prod").css("border-bottom","5px solid white");
+                $("#prod").css("color","white");
+                $("#upload").click(function(){
+                        if(!$("#simg").val()){
+                                $.ajax({
+                                        url:"/admin/noimg",
+                                        type:"post",
+                                        dataType:"json",
+                                        data:{no:$("#sfrm")[0][0].value},
+                                        success: function(result){
+                                                if(result){
+                                                        $("#frm").submit();
+                                                }
+                                        }
+                                })
+                        }else{
+                                $("#frm").submit();
+                        }
+                })
+                $("#simg").on("change",function(){
+                        var form=$('#sfrm')[0];
+                        var data = new FormData(form);
+                        $.ajax({
+                                url:"/admin/simgdb",
+                                type:"post",
+                                processData: false,
+                                contentType: false,
+                                data:data,
+                                success: function(result){
+                                        if(!result){
+                                                alert("사진 업로드가 실패했습니다.");
+                                        }else{
+                                                console.log(result.src);
+                                                $("#thumb").attr('src','../dbimg/'+result.src);
+                                        }
+                                }
+                        })
+                })
+                $("#simg2").on("change",function(){
+                        var form=$('#sfrm2')[0];
+                        var data = new FormData(form);
+                        $.ajax({
+                                url:"/admin/simgdb2",
+                                type:"post",
+                                processData: false,
+                                contentType: false,
+                                data:data,
+                                success: function(result){
+                                        if(!result){
+                                                alert("사진 업로드가 실패했습니다.");
+                                        }else{
+                                                console.log(result.src);
+                                                $("#thumb").attr('src','../dbimg/'+result.src);
+                                        }
+                                }
+                        })
+                })
+                CKEDITOR.replace( 'explan',{
+                        extraPlugins: 'autogrow',
+                        filebrowserUploadUrl: '/admin/bimgdb',
+                });
+              

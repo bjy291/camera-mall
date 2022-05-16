@@ -1,0 +1,113 @@
+include ../user/top.jade 
+                link(rel='stylesheet',href='../css/management.css')
+                h2(style="margin-left:80px") FAQ 관리
+                .mgback
+                        .upload
+                                .prodmg
+                                        .container-table100
+                                                .wrap-table100
+                                                        .table100
+                                                                table
+                                                                        thead
+                                                                                tr.table100-head
+                                                                                        th.column1 번호
+                                                                                        th.column2 제목
+                                                                                        th.column3 작성일
+                                                                                        th.column4 수정
+                                                                                        th.column5(style="width: 7.5%") 삭제
+                                                                        tbody
+                                                                                ul
+                                                                                        if(result)
+                                                                                                each faq in result     
+                                                                                                        tr
+                                                                                                                td.column1(style="width: 7%;")=faq.fnum
+                                                                                                                td.column2(style="width: 63%;text-align:left;")=faq.ftitle
+                                                                                                                td.column3(style="width: 15%")=new Date(faq.freg_date).format("yyyy-MM-dd")
+                                                                                                                td.column4(style="width: 7.5%;padding-left:20px;"): a.rainbtnlist#modi(alt="수정" name=faq.fnum)
+                                                                                                                td.column5(style="width: 7.5%;padding-left:20px;"): a.rainbtnlist#delete(alt="삭제" name=faq.fnum)
+                        .pagingdiv
+                                .paging
+                                        -var pover=Math.trunc(pager.pagecnt/10)
+                                        if(pover)
+                                                if(pno<11)
+                                                        - var n = 1 //시작페이지
+                                                        - var max=10 //끝페이지
+                                                        - var next=11 //다음10페이지
+                                                        - var check=1 //다음,마지막페이지 체크
+                                                else
+                                                        - var n=pno%10 ==0 ? (Math.trunc(pno/10)-1)*10+1 : Math.trunc(pno/10)*10+1 //시작페이지
+                                                        - var ip=Math.trunc(n/10) //시작페이지앞자리
+                                                        - var fp=Math.trunc(pager.pagecnt/10) //마지막페이지앞자리
+                                                        -var pna=pager.pagecnt-n //잔여페이지수
+                                                        -var next=(ip+1)*10+1 //다음10페이지
+                                                        -var prev=ip*10 //전10페이지
+                                                        if(ip == fp)
+                                                                -var max=n+pna
+                                                        else
+                                                                -var max=n+9
+                                        else
+                                                - var n = 1
+                                                - var max=pager.pagecnt
+                                        span
+                                                ul
+                                                        if(query.val)
+                                                                -var loc="&val="+query.val;
+                                                        else
+                                                                -var loc="&val=";
+                                                        if(pno>10)
+                                                                li
+                                                                        a#first(href="/admin/faq?page=1" style="height: 14px;")
+                                                                                img(src="../img/dbackb.png")
+                                                        if(prev)
+                                                                li
+                                                                        a#prev(href="/admin/faq?page="+prev+loc style="padding: 6px 4px 4px 4px;height: 12px;")
+                                                                                img(src="../img/backb.png")
+                                                        while n <= max
+                                                                li
+                                                                        if(pno==n)
+                                                                                a(href="/admin/faq?page="+n+loc style="color: red;border: 1px solid gray;background-color: gray;")=n++
+                                                                        else
+                                                                                a(href="/admin/faq?page="+n+loc)=n++
+
+                                                        if(ip != fp || check)
+                                                                li
+                                                                        a#next(href="/faq?page="+next+loc style="padding: 6px 4px 4px 4px;height: 12px;")
+                                                                                img(src="../img/forb.png")
+                                                                li
+                                                                        a#final(href="/admin/faq?page="+pager.pagecnt+loc style="height: 14px;")
+                                                                                img(src="../img/dforb.png")
+include ../user/bot.jade           
+       script.
+                $("#faq").css("border-bottom","5px solid white");
+                $("#faq").css("color","white");
+                $("#searchbtn").click(function(){ //검색
+                        var val=$("#searchval").val();
+                        if(!val){
+                                alert("검색어를 입력해주세요");
+                                return;
+                        }
+                        location.href=location.href+"?val="+val;
+                })
+                $("a[id=modi]").click(function(){  //faq수정페이지
+                        var num=$(this).attr("name");
+                        href ="/admin/faqmodify?num="+num;
+                        location.href =href;
+                })
+                $("a[id=delete]").click(function(){ //faq삭제
+                        var num=$(this).attr("name");
+                        console.log(num);
+                        $.ajax({
+                                url:"/admin/faqdelete",
+                                type:"post",
+                                dataType:'json',
+                                data:{num:num},
+                                success: function(result){
+                                        if(result){
+                                                alert("해당 글이 삭제 되었습니다.");
+                                                location.reload();
+                                        }else{
+                                                alert("해당 글을 삭제하지 못하였습니다.");
+                                        }
+                                }
+                        })
+                })

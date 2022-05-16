@@ -1,0 +1,124 @@
+include ../user/top.jade
+                .upload(style="display: flex;")
+                        .prct_simple
+                                .prct_imgbox
+                                        img(src="../dbimg/"+pro.img_name)
+                                .prct_infobox
+                                        .prct_defalut_info
+                                                .prct_defalut_area
+                                                        h3=pro.prod_name + " / " + pro.prod_comp
+                                                //- hr
+                                                <br>
+                                                <br>
+                                                <br>
+                                                -var price=pro.prod_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                                strong#price(style="color:black;")="가격 : "+price      
+                                                <br>
+                                                <br>
+                                                form#option(action="/user/payment" method="post")
+                                                        h3#price 구매수량 
+                                                                input#cntstock(name="cntstock" type="text" value=1 style="height:30px;")
+                                                                input#up(type="button" value="▲")
+                                                                
+                                                                input#down(type="button" value="▼")
+                                                        input#num5(name="num5" type="text" style="display:none" value=pro.num)
+                                                        input#stat(name="stat" type="text" style="display:none" value=1)
+                                                .buydiv
+                                                        a#basket 장바구니
+                                                        a#nowbuy 구매하기
+                .detailinfo
+                        nav.procate
+                                ul#cateMenu
+                                        li: a.cateifm(style="color: white;background-color: rgb(80, 76, 76)") 상품정보
+                                        li: a.caterev 상품리뷰
+                        .proimgdiv
+                                .proimg
+                                        a#ptext(style="display:none")=pro.prod_text
+                                        img(src="../dbimg/"+pro.img_name_1)
+                                .review(style="display:none")
+                                        if(review.length)
+                                                each rev in review
+                                                        .revtable
+                                                               
+                                                                .revuser
+                                                                        span.name=rev.id
+                                                                        span.date=new Date(rev.rdate).format("yyyy-MM-dd")
+                                                                .revopt
+                                                                        p=rev.optname
+                                                                .revtext
+                                                                        a#rtext(style="display:none")=rev.rtext
+                                        else
+                                                span(style="margin-left: 300px;font-size: 18px;") 리뷰없음.
+include ../user/bot.jade  
+                script(type='text/javascript', src='../js/jquery.js')    
+                
+                script.
+                        $("a[id=nowbuy]").click(function(){
+                                
+                                $("#option").submit();
+                        })
+                        $("a[id=basket]").click(function(){
+                               $("#stat")[0].value = 2;
+                               $("#option").submit(); 
+                        })
+                        $(document).ready(function(){
+                                var procate = $('.procate').offset();
+                                var probuy=$(".probuy").offset();
+                                $(window).scroll(function(){
+                                        if($(document).scrollTop() > probuy.top) {
+                                                $('.probuy').addClass('probuyFixed'); 
+                                                $('.procate').addClass('procateFixed');
+                                                $('.sideoptiondiv').css("top","0px");
+                                        }
+                                        else if($(document).scrollTop() < procate.top){
+                                                $('.probuy').removeClass('probuyFixed');
+                                                $('.procate').removeClass('procateFixed');
+                                                $('.sideoptiondiv').css("top","20px");
+                                        }
+                                });
+                        });
+                        $( window ).on( "load", function() {
+                                $(".justwrap").css("display","inline-grid");
+                                $(".proimg").append($("#ptext")[0].innerText);
+                                var leng=$("div[class=revtext]").length;
+                                for(var i=0;i<leng;i++){
+                                        //- console.log($("div[class=revtext]")[i].children[0].innerText);
+                                        $("div[class=revtext]")[i].insertAdjacentHTML('beforeend',$("div[class=revtext]")[i].children[0].innerText);
+                                }
+                        })
+                        
+                        $(".cateifm").click(function(){ //상세정보창
+                                $(".caterev").css("background-color","rgb(189,189,189)");
+                                $(".caterev").css("color","black");
+                                $(".proimg").css("display","block");
+                                $(".review").css("display","none");
+                                $(this).css("color","white");
+                                $(this).css("background-color","rgb(80, 76, 76)");
+                                $(".caterev").css("color","black");
+                                $(".caterev").css("border","none");
+                        })
+                        $(".caterev").click(function(){ //리뷰창
+                                $(".cateifm").css("background-color","rgb(189,189,189)");
+                                $(".cateifm").css("color","black");
+                                $(".proimg").css("display","none");
+                                $(".review").css("display","block");
+                                $(this).css("color","white");
+                                $(this).css("background-color","rgb(80, 76, 76)");
+                                $(".cateifm").css("color","black");
+                                $(".cateifm").css("border","none");
+                        })
+                        function numberWithCommas(x) { //콤마찍기
+                                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        }
+                        $("#up").click(function(){
+                                var stock = parseInt($("#cntstock")[0].value)
+                                stock += 1
+                                $("#cntstock")[0].value = stock
+                        })
+                        $("#down").click(function(){
+                                var stock = parseInt($("#cntstock")[0].value)
+                                stock -= 1
+                                $("#cntstock")[0].value = stock
+                        })
+                        
+                        

@@ -1,0 +1,37 @@
+include ../user/top.jade
+                link(rel='stylesheet',href='./css/faq.css')
+               
+                .faq
+                        .faqtitle
+                         h3 고객센터
+                        .faqlist
+                                table.faqtable
+                                        thead
+                                                tr
+                                                        th 번호
+                                                        th 제목
+                                        tbody
+                                                each fa,index in faq
+                                                        tr
+                                                                td: a(href='/helpread?num='+fa.fnum style="text-align:center;")=fa.fnum
+                                                                td: a#faq(href='/helpread?num='+fa.fnum style="text-align:center;")=fa.ftitle
+                                                        tr(style="display: none" class=index)
+                                                                td#faqtext(colspan="2" data-text=fa.ftext)
+                                                                script.
+                                                                        var html=$("td[id=faqtext]")[#{index}].dataset.text;
+                                                                        $("td[id=faqtext]")[#{index}].innerHTML=html;
+                .write 
+                        if(id=="root")
+                         a.rainbtn(href="/admin/faqupload") 작성하기
+include ../user/bot.jade                                              
+                script.
+                        $("div[id=title]").click(function(){
+                                var num=$(this).attr("class");
+                                var status=$("tr[class="+num+"]").attr("style");
+                                if(status.match("none")){
+                                        $("tr[class="+num+"]").css("display","table-row")
+                                }else{
+                                        $("tr[class="+num+"]").css("display","none")
+                                }
+                        })
+

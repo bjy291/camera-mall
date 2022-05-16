@@ -1,0 +1,46 @@
+include top.jade 
+                link(rel='stylesheet',href='./css/ifm.css')
+                link(rel='stylesheet',href='../css/ifm.css')
+                .ifm
+                        .grade
+                                a test
+                        .memdiv
+                                h2 회원정보 변경
+                                p 
+                                        | 아이디와 이름을 제외하고 수정이 가능합니다. 
+                        .list
+                                .link-container
+                                                ul
+                                                        li
+                                                                a(href='/user/basket') 장바구니
+                                                        li
+                                                                a(href='/user/orderifm') 주문/배송 조회
+                   
+                        .table
+                                 form.table-cell#change(method="POST" action="/user/information")
+                                                input#id(name='id', type='text' readOnly autocomplete="off" onkeyup="trim(this);" placeholder=user.id style="background-color:rgb(189,189,189)" value=user.id)
+                                                <br>
+                                                input#pwaa(name='pw',type='Password' autocomplete="off" style="ime-mode:disabled" onkeyup="trim(this);" value=user.pw)
+                                                <br>
+                                                input#pwok(name='pwok',type='Password' autocomplete="off" style="ime-mode:disabled" onkeyup="trim(this);" value=user.pw) 
+                                                <br>
+                                                input#nam(name='name',type='text' readOnly autocomplete="off" style="ime-mode: active; background-color:rgb(189,189,189);" onkeyup="trim(this);" placeholder=user.name value=user.name)
+                                                <br>
+                                                input#phone(name='phone',type='text' autocomplete="off" onkeyup="trim(this);" value=user.phone)
+                                                <br>
+                                                input#addr(name='addr',type='text' autocomplete="off" onkeyup="trim(this);" value=user.addr)
+                                                <br>
+                                        .passbtn        
+                                        button#btnchange(style="margin: 10px 10px; background-color: rgb(189,189,189);") 변경
+                                        button#passclose(style="margin-left: 0px;margin-top: 0px; background-color: rgb(189,189,189);") 취소
+                                        
+include bot.jade                                       
+                script.
+                        $("#btnchange").click(function(){
+                                
+                                $('#change').submit();
+                                
+                        });
+                        $("#passclose").click(function(){
+                                location.href='/';
+                        });

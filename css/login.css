@@ -1,0 +1,59 @@
+.container input,textarea{
+  width:100%;
+  border-radius:4px solid #aaa;
+  border-radius:3px;
+  margin:-2px;
+  outline:none;
+  padding:9px;
+  box-sizing:border-box;
+  transition:.3s;
+}
+
+.box{
+      color:black;
+      border:1px solid;
+      background-color: white;
+      width: 550px;
+      height: 250px;
+      margin: 30px 10px 10px 370px;
+      padding: 10px 10px 10px 10px;
+      display: table;
+}
+.box2{
+  color:black;
+  border:1px solid;
+  background-color: white;
+  width: 550px;
+  height: 250px;
+  margin: 30px 10px 10px 370px;
+  padding: 10px 10px 10px 10px;
+  display: table;
+}
+.box2 input{
+  block-size: 25px;
+  width: 320px;
+  margin-left: 100px;
+  margin-bottom: 10px;
+}
+#regibtn{
+  margin: -200px 10px 0px 450px;
+  border: 2px solid rgb(189, 189, 189);
+}
+#idck{
+  border: 2px solid rgb(189, 189, 189);
+  margin-left: 10px;
+  height: 31px;
+}
+.box input{
+  block-size: 25px;
+  width: 320px;
+  margin-left: 100px;
+}
+#loginid{
+  margin: 30px 0px 10px 100px;
+}
+#loginbtn{
+  margin:10px 0px 0px 100px;
+  border: 2px solid rgb(189, 189, 189);
+  height: 40px;
+}

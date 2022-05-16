@@ -1,0 +1,191 @@
+include ../user/top.jade 
+                link(rel='stylesheet',href='../css/management.css')                  
+                .mgback
+                        .upload
+                                .mansearch
+                                         h3 상품관리 
+                                        select#searchtype1.justselect(name='comp' style="margin-left: 1075px;")
+                                                option(value='Nikon') Nikon
+                                                option(value='Canon') Canon
+                                                option(value='Sony') Sony
+                                                option(value='Lens') Lens
+                                                option(value='Accessory') Accessory
+                                .prodmg
+                                        .container-table100
+                                                .wrap-table100
+                                                        .table100
+                                                                table
+                                                                        thead
+                                                                                tr.table100-head
+                                                                                        th.column1 번호
+                                                                                        th.column2 등록일자
+                                                                                        th.column3 상품
+                                                                                        th.column4 재고
+                                                                                        th.column5 가격
+                                                                                        th.column6 제조사
+                                                                                        th.column7(colspan="2") 상태
+                                                                        tbody
+                                                                                ul
+                                                                                        if(result)
+                                                                                                each pro in result     
+                                                                                                        tr
+                                                                                                                td.column1=pro.num
+                                                                                                                td.column2=new Date(pro.prod_date).format("yyyy-MM-dd")
+                                                                                                                td
+                                                                                                                        a(style="width: 350px;" href='/prod/productDetail?num='+pro.num)=pro.prod_name
+                                                                                                                td.column4=pro.prod_stock
+                                                                                                                -var price=pro.prod_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                                                                                                td.column5=price+"원"
+                                                                                                                td.column6(style="width: 40px;")=pro.prod_comp
+                                                                                                                td.column7: a.rainbtnlist#modi(alt="수정" name=pro.nu)
+                                                                                                                td.column8(style="padding-left: 20px;"): a.rainbtnlist#delete(alt="비활성화" name=pro.num)
+                        .pagingdiv
+                                .paging
+                                        -var pover=Math.trunc(pager.pagecnt/10)
+                                        if(pover)
+                                                if(pno<11)
+                                                        - var n = 1 //시작페이지
+                                                        - var max=10 //끝페이지
+                                                        - var next=11 //다음10페이지
+                                                        - var check=1 //다음,마지막페이지 체크
+                                                else
+                                                        - var n=pno%10 ==0 ? (Math.trunc(pno/10)-1)*10+1 : Math.trunc(pno/10)*10+1 //시작페이지
+                                                        - var ip=Math.trunc(n/10) //시작페이지앞자리
+                                                        - var fp=Math.trunc(pager.pagecnt/10) //마지막페이지앞자리
+                                                        -var pna=pager.pagecnt-n //잔여페이지수
+                                                        -var next=(ip+1)*10+1 //다음10페이지
+                                                        -var prev=ip*10 //전10페이지
+                                                        if(ip == fp)
+                                                                -var max=n+pna
+                                                        else
+                                                                -var max=n+9
+                                        else
+                                                - var n = 1
+                                                - var max=pager.pagecnt
+                                        span
+                                                ul
+                                                        if(search)
+                                                                if(pno>10)
+                                                                        li
+                                                                                a#first(href="/search?page=1&search="+search style="height: 14px;")
+                                                                                        img(src="./img/dbackb.png")
+                                                                if(prev)
+                                                                        li
+                                                                                a#prev(href="/search?page="+prev+"&search="+search style="padding: 6px 4px 4px 4px;height: 12px;")
+                                                                                        img(src="./img/backb.png")
+                                                                while n <= max
+                                                                        li
+                                                                                if(pno==n)
+                                                                                        a(href="/search?page="+n+"&search="+search style="color: #fff;border: 1px solid #fff;background-color: #fff;")=n++
+                                                                                else
+                                                                                        a(href="/search?page="+n+"&search="+search)=n++
+
+                                                                if(ip != fp || check)
+                                                                        li
+                                                                                a#next(href="/search?page="+next+"&search="+search style="padding: 6px 4px 4px 4px;height: 12px;")
+                                                                                        img(src="./img/forb.png")
+                                                                        li
+                                                                                a#final(href="/search?page="+pager.pagecnt+"&search="+search style="height: 14px;")
+                                                                                        img(src="./img/dforb.png")
+                                                        else
+                                                                if(pno>10)
+                                                                        li
+                                                                                a#first(href="/admin/product" style="height: 14px;")
+                                                                                        img(src="./img/dbackb.png")
+                                                                if(prev)
+                                                                        li
+                                                                                a#prev(href="/admin/product/pagenum="+prev style="padding: 6px 4px 4px 4px;height: 12px;")
+                                                                                        img(src="./img/backb.png")
+                                                                while n <= max
+                                                                        li
+                                                                                if(pno==n)
+                                                                                        a(href="/admin/product/pagenum="+n style="color: red;")=n++
+                                                                                else
+                                                                                        a(href="/admin/product/pagenum="+n)=n++
+
+                                                                if(ip != fp || check)
+                                                                        li
+                                                                                a#next(href="/admin/product/pagenum="+next style="padding: 6px 4px 4px 4px;height: 12px;")
+                                                                                        img(src="./img/forb.png")
+                                                                        li
+                                                                                a#final(href="/admin/product/pagenum="+pager.pagecnt style="height: 14px;")
+                                                                                        img(src="./img/dforb.png")
+                        a#upload1(href="/admin/productupload" style="margin-left: 1115px; margin-top:-20px;") 상품등록
+include ../user/bot.jade                
+
+        script.
+                $("#prod").css("border-bottom","5px solid white");
+                $("#prod").css("color","white");
+                $("#searchbtn").click(function(){ //검색
+                        var type1=$("#searchtype1 option:selected").val();
+                        var type2=$("#searchtype2 option:selected").val();
+                        var val=$("#searchval").val();
+                        location.href="/admin/product?page=1&type1="+type1+"&type2="+type2+"&val="+val;
+                })
+                $("#first").hover(function(){ //페이징버튼css
+                        $("#first").children().attr('src','./img/dbackw.png');
+                },function(){
+                        $("#first").children().attr('src','./img/dbackb.png');
+                })
+                $("#prev").hover(function(){
+                        $("#prev").children().attr('src','./img/backw.png');
+                },function(){
+                        $("#prev").children().attr('src','./img/backb.png');
+                })
+                $("#next").hover(function(){
+                        $("#next").children().attr('src','./img/forw.png');
+                },function(){
+                        $("#next").children().attr('src','./img/forb.png');
+                })
+                $("#final").hover(function(){
+                        $("#final").children().attr('src','./img/dforw.png');
+                },function(){
+                        $("#final").children().attr('src','./img/dforb.png');
+                })
+                $("a[id='modi']").click(function(){ //상품수정
+                        num=$(this)[0].name;
+                        href ="/admin/productmodify?num="+num;
+                        location.href =href;
+                });
+                $("a[id='delete']").click(function(){ //상품삭제
+                        num=$(this)[0].name;
+                        console.log(num);
+                        $.ajax({
+                                url:"/admin/productdelete",
+                                type:"post",
+                                dataType:'json',
+                                data:{'num':num},
+                                success: function(result){
+                                        if(result){
+                                                location.href="/admin/product";
+                                        }else{
+                                                alert("삭제가 실패하였습니다.");
+                                        }
+                                }
+                        })
+                        //- href ="/productdelete?num="+num;
+                        //- location.href =href;
+                });
+                Date.prototype.format = function(f) {
+                        if (!this.valueOf()) return " ";
+                        var weekName = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
+                        var d = this;
+                        return f.replace(/(yyyy|yy|MM|dd|E|hh|mm|ss|a\/p)/gi, function($1) {
+                                switch ($1) {
+                                        case "yyyy": return d.getFullYear();
+                                        case "yy": return (d.getFullYear() % 1000).zf(2);
+                                        case "MM": return (d.getMonth() + 1).zf(2);
+                                        case "dd": return d.getDate().zf(2);
+                                        case "E": return weekName[d.getDay()];
+                                        case "HH": return d.getHours().zf(2);
+                                        case "hh": return ((h = d.getHours() % 12) ? h : 12).zf(2);
+                                        case "mm": return d.getMinutes().zf(2);
+                                        case "ss": return d.getSeconds().zf(2);
+                                        case "a/p": return d.getHours() < 12 ? "오전" : "오후";
+                                        default: return $1;
+                                }
+                        });
+                };
+                String.prototype.string = function(len){var s = '', i = 0; while (i++ < len) { s += this; } return s;};
+                String.prototype.zf = function(len){return "0".string(len - this.length) + this;};
+                Number.prototype.zf = function(len){return this.toString().zf(len);};

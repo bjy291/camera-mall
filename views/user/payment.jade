@@ -1,0 +1,204 @@
+include ../user/top.jade   
+        .basket
+                link(rel='stylesheet',href='../css/payment.css')
+                form#form(action="/user/orderadd" method="post")
+                        input#procnt(type="text" value=0 name="procnt" style="display:none")
+                        //- -console.log(bnum);
+                        if(bnum)
+                                each bas,i in bnum
+                                        input(type="text" value=bas name="bnum" style="display:none")
+                        .payment
+                                .paymenttitle
+                                        h2 주문/결제
+                                .paymentlist
+                                                table.paymenttable
+                                                        thead
+                                                                tr
+                                                                        th 상품
+                                                                        th 수량
+                                                                        th 가격
+                                                                        th.columdel 배송비
+                                                        tbody#probody
+                                                                        each pro,i in pay,id
+                                                                                tr#num(data-num=pro.num)
+                                                                                        td
+                                                                                                img(src="../dbimg/"+pro.img_name)
+                                                                                                sapn#comp=pro.prod_comp
+                                                                                                span#name=pro.prod_name
+                                                                                        -if(!cnt){
+                                                                                                -var total=pro.prod_price*cntstock
+                                                                                                -var price=total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                                                                                td#cnt(data-cnt=pro.cnt)=cntstock
+                                                                                                input(type="text" name="num" value=pro.num style="display:none")
+                                                                                                input#cnt2(type="text" name="cnt"  value=cntstock style="display:none")
+                                                                                        -}else{
+                                                                                                -var total=pro.prod_price*cntstock
+                                                                                                -var price=total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                                                                                td#cnt(data-cnt=cntstock)=cntstock
+                                                                                                input(type="text" name="num" value=pro.num style="display:none")
+                                                                                                
+                                                                                                input(type="text" name="cnt"  value=cntstock style="display:none")
+                                                                                        -}
+                                                                                        td#price(data-price=pro.prod_price)=price
+                                                                                        if(deli)
+                                                                                                each del,j in deli
+                                                                                                        if(i==j)
+                                                                                                                if(del)
+                                                                                                                        td#deli.columdel(data-price="0") 착불
+                                                                                                                else
+                                                                                                                        td#deli.columdel(data-price="2500") 12,500원
+                                                                                                                if(del)
+                                                                                                                        input(type="text" name="deli"  value=1 style="display:none")
+                                                                                                                else
+                                                                                                                        input(type="text" name="deli"  value=0 style="display:none")
+                                                                                        else
+                                                                                                if(pro.delivery)
+                                                                                                        td#deli.columdel(data-price="0") 착불
+                                                                                                else
+                                                                                                        td#deli.columdel(data-price="2500") 12,500원
+                                                                                                if(pro.delivery)
+                                                                                                        input(type="text" name="deli"  value=1 style="display:none")
+                                                                                                else
+                                                                                                        input(type="text" name="deli"  value=0 style="display:none")
+                                                                                       
+                                .totalprice
+                                        table
+                                                tr
+                                                        td 총 가격
+                                                        td#orderprice
+                                                        td +
+                                                        td(style="padding-right: 60px;") 배송비
+                                                        td#orderdeli
+                                                        td =
+                                                        td(style="padding-right: 10px;") 총 결제금액
+                                                        td#ordertotal
+                                                        input#totalinput(type="text" name="total" style="display:none")
+                                                        input#totalcnt(type="text" name="tocnt" style="display:none")
+                                .loctable
+                                        table
+                                         a#chan 기존 배송지 정보 사용
+                                                tbody
+                                                 each pro,i in pay
+                                                        tr     
+                                                                th#gizon 주문자 배송지 정보
+                                                                th#gizon 신규 배송지 작성
+                                                        tr
+                                                                td(scope='row') 주문자 이름
+                                                                td
+                                                                        input#oname(type="text" autocomplete="off"  name="oname" value=pro.name)
+                                                                th(scope='row') 주문자 이름
+                                                                td
+                                                                        input#oname1(type="text" autocomplete="off"  name="oname1")             
+                                                        tr
+                                                        
+                                                                th(scope='row') 주소
+                                                                td#loc
+                                                                        p 도로명 주소
+                                                                        input.postcodify_address(type='text' readonly name="locadd" value="송현로 50")
+                                                                        br
+                                                                        p 상세주소
+                                                                        input.postcodify_details(type='text' autocomplete="off"  name="locdetail" style="margin-bottom:10px" value=pro.addr)
+                                                                th(scope='row') 주소
+                                                                td#loc
+                                                                        p 도로명 주소
+                                                                        input.postcodify_address1(type='text' readonly name="locadd1")
+                                                                        br
+                                                                        p 상세주소
+                                                                        input.postcodify_details1(type='text' autocomplete="off"  name="locdetail1" style="margin-bottom:10px")        
+                                                        tr
+                                                                th(scope='row') 휴대전화
+                                                                td
+                                                                        input#aphone(type="text" autocomplete="off"  name="ophone" value=pro.phone)
+                                                                th(scope='row') 휴대전화
+                                                                td
+                                                                        input#aphone1(type="text" autocomplete="off"  name="ophone1") 
+                                                        tr                
+                                                                th(scope='row') 배송시 요청사항
+                                                                                input#area(type="text" cols="12" rows="2" autocomplete="off"  name="si" ) 
+                                                                                select#opl
+                                                                                        option(value="경비실에 맡겨주세요.") 경비실에 맡겨주세요.
+                                                                                        option(value="도착 전 연락주세요.") 도착 전 연락주세요.
+                                                                                        option(value="문 앞에 두고 연락주세요.") 문 앞에 두고 연락주세요.                    
+                                                        
+                        .buy
+                                a#order 주문하기
+                                a#close  취소하기
+                script(src='//d1p7wdleee1q2z.cloudfront.net/post/search.min.js')
+                script.
+                        $(window).on( "load", function() {
+                                var leng=$("#cnt2")[0].value;
+                                var orprice=0;
+                                var ordeli=12500;
+                                var total=0;
+                                for(var i=0;i<leng;i++){
+                                        orprice=orprice+Number($("td[id=price]")[0].dataset.price);
+                                }
+                                total=orprice+ordeli;
+                                $("#orderprice")[0].innerText=numberWithCommas(orprice)+"원";
+                                $("#orderdeli")[0].innerText=numberWithCommas(ordeli)+"원";
+                                $("#ordertotal")[0].innerText=numberWithCommas(total)+"원";
+                                $("#ordertotal")[0].dataset.total=total;
+                                $("#totalinput")[0].value=total;
+                                $("#totalcnt")[0].value=leng;
+                        })
+                        $(function() {
+                                $("#postsearch").postcodifyPopUp();
+                        });
+                        function numberWithCommas(x) { //콤마찍기
+                                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        }
+                        $("#close").click(function(){
+                                history.back();
+                        })
+                        $("#order").click(function(){
+                                if($("#oname")[0].value==""){
+                                        alert("주문자이름을 입력하세요.");
+                                        $("#oname1").focus();
+                                        return;
+                                }
+                                else if($(".postcodify_address1")[0].value==""){
+                                        alert("주소를 입력하세요.");
+                                        $(".postcodify_address1").focus();
+                                        return;
+                                }else if($(".postcodify_details1")[0].value==""){
+                                        alert("상세주소를 입력하세요.");
+                                        $(".postcodify_details1").focus();
+                                        return;
+                                }else if($("#aphone1")[0].value==""){
+                                        alert("휴대전화를 입력하세요.");
+                                        $("#aphone").focus();
+                                        return;
+                                
+                                }else if($("#area")[0].value == ""){
+                                        alert("요청 사항을 입력해주세요.");
+                                        $("#area").focus();
+                                        return;
+                                }
+                                
+                                else{
+                                        $("#form").submit();
+                                }
+                        });
+                        $(".columdel").each(function() {
+                                var rows = $(".columdel:contains('" + $(this).text() + "')");
+                                if (rows.length > 1) {
+                                        rows.eq(0).attr("rowspan", rows.length);
+                                        rows.not(":eq(0)").remove();
+                                }
+                        });
+                        function checkPhone(number){
+                                var regExp=/^\d{3}-\d{4}-\d{4}$/;
+                                if(regExp.test(number)) {
+                                        return true;
+                                } else {
+                                        return false;
+                        }};
+                        $("#chan").click(function(){
+                                $('#oname1')[0].value = $('#oname').val();
+                                $('.postcodify_address1')[0].value = $('.postcodify_address').val();
+                                $('.postcodify_details1')[0].value = $('.postcodify_details').val();
+                                $('#aphone1')[0].value = $('#aphone').val();
+                        })
+                        $("#opl").click(function(){
+                                $('#area')[0].value = $('#opl').val();
+                        })

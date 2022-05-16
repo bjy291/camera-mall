@@ -1,0 +1,19 @@
+include ../user/top.jade 
+                link(rel='stylesheet',href='../css/management.css')
+                link(rel='stylesheet',href='../css/faq.css')
+                .faq
+                        .faqtitle
+                         h3 고객센터
+                        .faqlist
+                                form#frm(action="/admin/faqupload" method="post")
+                                        table.faqtable
+                                                  tbody
+                                                        each fa in result
+                                                            tr
+                                                                th 제목
+                                                                td: a=fa.ftitle
+                                                            tr 
+                                                                th 내용
+                                                                td: textarea(name="a", cols="30", rows="10")=fa.ftext
+                            a.rainbtn(alt="목록" href='/help' style="margin-left: 1020px; margin-top:-10px;")
+include ../user/bot.jade

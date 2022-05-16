@@ -1,0 +1,246 @@
+#order{
+        display: inline-block;
+        border:1px solid rgb(189,189,189);
+        border-radius: 2px;
+        margin-left: 30px;
+        margin-top: 8px;
+        padding: 10px 12px 10px 12px;  
+        background-color: rgb(189,189,189);
+        font-family: Maplestory_OTF; 
+        font-size: 12px; color: black;
+}
+#order:hover{
+        color: white;
+       
+}
+#delete{
+        display: inline-block;
+        border:1px solid rgb(189,189,189);
+        border-radius: 2px;
+        margin-left: 30px;
+        margin-top: 8px;
+        padding: 10px 12px 10px 12px;  
+        background-color: rgb(189,189,189);
+        font-family: Maplestory_OTF; 
+        font-size: 12px; color: black;
+}
+#delete:hover{
+        color: white;
+       
+}
+.allbuy a:hover{
+        color:white;
+}
+.basket{
+        position: relative;
+        left: 0;
+        top: 20px;
+        width: 1200px;
+        margin:0px auto;
+        font-family: "Roboto", sans-serif;
+        overflow: hidden;
+        margin-bottom: 50px;
+}
+.baskettitle{
+        display: inline-block;
+        top: 20px;
+        position: relative;
+        border-bottom: rgb(97, 96, 96) 3px solid;
+        width: 1020px;
+        margin: 0px 10px;
+        margin-left: 170px;
+}
+.baskettitle img{
+        width: 50px;
+        height: 50px;
+        float:left;
+}
+.baskettitle h2{
+        margin:10px;
+        display: inline-block;
+}
+.basketlist{
+        margin: 40px 0px 40px 170px;
+}
+.baskettable{
+        width:1020px;
+        border-collapse: collapse;
+}
+
+.baskettable thead{
+        height: 40px;
+        background: #ebebeb;
+}
+.baskettable th:nth-child(1){
+        width:10%;
+}
+.baskettable th:nth-child(2){
+        width:60%;
+        
+}
+.baskettable th:nth-child(3).baskettable th:nth-child(4){
+        width:15%;
+}
+.baskettable th:nth-child(5){
+        width:14%;
+}
+th{
+        border:1px solid rgb(104, 104, 104);
+        border-bottom:1px solid rgb(104, 104, 104);
+}
+tr,td{
+        border-top:1px solid #ebebeb;
+        border-bottom:1px solid #ebebeb;
+}
+td:nth-child(2){
+        border:1px solid #ebebeb;
+}
+td:nth-child(4){
+        border:1px solid #ebebeb;
+}
+td:nth-child(5){
+        border-left:1px solid #ebebeb;
+}
+#check{
+        width:100px;
+        
+}
+.baskettable img{
+        width:120px;
+        margin-left: -450px;
+}
+#name{
+        position: absolute;
+        font-size: 30px;
+        margin:30px 10px 10px 120px;
+}
+#comp{
+        position: absolute;
+        font-size: 30px;
+        margin:25px 10px 10px 20px;
+}
+#option{
+        position: relative;
+        margin-left: 10px;
+        font-size: 11px;
+        top: -20px;
+}
+#hr{
+        border: 1px dotted black;
+        position: relative;
+        left: 105px;
+        top: -50px;
+        width: 550px;
+}
+.baskettable td:nth-child(2),.baskettable td:nth-child(3),.baskettable td:nth-child(4){
+        text-align: center;
+        font-size: 14px;
+}
+.baskettable td:nth-child(3){
+        font-weight: bold;
+        color: black;
+        border: black;
+}
+.buy a,.checkcl a,.allbuy a{
+        display: inline-block;
+        background: transparent;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-style: normal;
+        font-size: 12px;
+        letter-spacing: 0.3em;
+        color: red;
+        border-radius: 0;
+        padding: 10px 15px;
+        transition: all 0.7s ease-out;
+        background: linear-gradient(270deg, rgba(255, 0, 0, 0.8), rgba(255, 0, 0, 0.8), rgba(189, 21, 21, 0), rgba(255, 1, 1, 0));
+        background-position: 1% 50%;
+        background-size: 300% 300%;
+        text-decoration: none;
+        margin: 5px 10px;
+        border: none;
+        border: 1px solid red;
+        margin-left:20px;
+        display: inline-block;
+        border:1px solid rgb(189,189,189);
+        border-radius: 2px;
+        margin-left: 30px;
+        margin-top: 8px;
+        padding: 10px 12px 10px 12px;  
+        background-color: rgb(189,189,189);
+        font-family: Maplestory_OTF; 
+        font-size: 12px; color: black;
+}
+
+
+#nobas{
+        text-align: center;
+        padding: 50px;
+        font-weight: bold;
+}
+.checkcl span{
+        position: absolute;
+        margin-left: 20px;
+        font-size: 13px;
+}
+.checkcl a{
+        margin-left: 830px;
+        margin-top: -25px;
+}
+.checkcl input{
+        margin-left: 16px;
+}
+.allbuy{
+        float: right;
+        margin-right: 10px;
+        margin-top:-51px;
+}
+
+.list{
+        position: fixed;
+        top: 300px;
+}
+.link-container {
+        width: 150px;
+        font-family: Maplestory_OTF; 
+}
+      
+.link-container h2 {
+        background-color: rgb(235, 80, 92);
+        color: black;
+        font-size: 18px;
+        line-height: 30px;
+        margin: 0;
+        padding-left: 10px;
+}
+
+.link-container ul {
+        font-size: 13px;
+        list-style-type: none;
+        padding-left: 0;
+        margin: 0;
+}
+
+.link-container ul li{
+        background-image: url('https://i.msdn.microsoft.com/dynimg/IC688534.png');
+        background-repeat: no-repeat;
+        background-position: center left;
+        border-left: #777 1px solid;
+        border-right: #777 1px solid;
+        padding-left: 20px;
+        line-height: 30px;
+}
+.link-container ul li:last-child{
+        border-bottom: #777 1px solid;
+}
+.link-container ul li a {
+        text-decoration: none;
+        color:#777;
+}
+.link-container ul li a:hover {
+        text-decoration:underline;
+        color:black;
+}
+.checkcl{
+        padding-left: 160px;
+}

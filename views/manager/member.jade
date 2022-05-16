@@ -1,0 +1,181 @@
+include ../user/top.jade 
+                link(rel='stylesheet',href='../css/management.css')
+                .title
+                        h3 회원관리
+                .mgback
+                        .upload
+                                .prodmg
+                                        .container-table100
+                                                .wrap-table100
+                                                        .table100
+                                                                table
+                                                                        thead
+                                                                                tr.table100-head
+                                                                                        th.column1 ID
+                                                                                        th.column2 이름
+                                                                                        th.column3 휴대폰 번호
+                                                                                        th.column4 주소
+                                                                                        th.column5(colspan="2") 상태
+                                                                        tbody
+                                                                                ul
+                                                                                        if(result)
+                                                                                                each mem in result     
+                                                                                                        tr(class=mem.id)
+                                                                                                                td.column1(data-id=mem.id style="width: 10%;")
+                                                                                                                        a=mem.id
+                                                                                                                        input(type="text" name=mem.id style="display:none" value=mem.id)
+                                                                                                                td.column2(data-pw=mem.pw style="width: 10%;")
+                                                                                                                        a=mem.name
+                                                                                                                        input(type="text" name=mem.pw style="display:none" value=mem.name)
+                                                                                                                td.column3(data-name=mem.name style="width: 15%;")
+                                                                                                                        a=mem.phone
+                                                                                                                        input(type="text" name=mem.name style="display:none" value=mem.phone)
+                                                                                                                td.column4(data-phone=mem.phone style="width: 30%;")
+                                                                                                                        a=mem.addr
+                                                                                                                        input(type="text" name=mem.phone style="display:none" value=mem.addr)
+                                                                                                                td.column7(style="width: 5%;"): a.rainbtnlist#modi(alt="수정" name=mem.id)
+                                                                                                                        a.rainbtnlist#ok(alt="완료" name=mem.id style="display:none")
+                                                                                                                td.column8(style="width:5%;"): a.rainbtnlist#delete(alt="비활성화" name=mem.id)
+                                                                                                                        a.rainbtnlist#close(alt="취소" name=mem.id style="display:none")
+                                                                                                        
+                        .pagingdiv
+                                .paging
+                                        -var pover=Math.trunc(pager.pagecnt/10)
+                                        if(pover)
+                                                if(pno<11)
+                                                        - var n = 1 //시작페이지
+                                                        - var max=10 //끝페이지
+                                                        - var next=11 //다음10페이지
+                                                        - var check=1 //다음,마지막페이지 체크
+                                                else
+                                                        - var n=pno%10 ==0 ? (Math.trunc(pno/10)-1)*10+1 : Math.trunc(pno/10)*10+1 //시작페이지
+                                                        - var ip=Math.trunc(n/10) //시작페이지앞자리
+                                                        - var fp=Math.trunc(pager.pagecnt/10) //마지막페이지앞자리
+                                                        -var pna=pager.pagecnt-n //잔여페이지수
+                                                        -var next=(ip+1)*10+1 //다음10페이지
+                                                        -var prev=ip*10 //전10페이지
+                                                        if(ip == fp)
+                                                                -var max=n+pna
+                                                        else
+                                                                -var max=n+9
+                                        else
+                                                - var n = 1
+                                                - var max=pager.pagecnt
+                                        span
+                                                ul
+                                                        if(search)
+                                                                if(pno>10)
+                                                                        li
+                                                                                a#first(href="/search?page=1&search="+search style="height: 14px;")
+                                                                                        img(src="./img/dbackb.png")
+                                                                if(prev)
+                                                                        li
+                                                                                a#prev(href="/search?page="+prev+"&search="+search style="padding: 6px 4px 4px 4px;height: 12px;")
+                                                                                        img(src="./img/backb.png")
+                                                                while n <= max
+                                                                        li
+                                                                                if(pno==n)
+                                                                                        a(href="/search?page="+n+"&search="+search style="color: #fff;border: 1px solid #f40;background-color: #f40;")=n++
+                                                                                else
+                                                                                        a(href="/search?page="+n+"&search="+search)=n++
+
+                                                                if(ip != fp || check)
+                                                                        li
+                                                                                a#next(href="/search?page="+next+"&search="+search style="padding: 6px 4px 4px 4px;height: 12px;")
+                                                                                        img(src="./img/forb.png")
+                                                                        li
+                                                                                a#final(href="/search?page="+pager.pagecnt+"&search="+search style="height: 14px;")
+                                                                                        img(src="./img/dforb.png")
+                                                        else
+                                                                if(pno>10)
+                                                                        li
+                                                                                a#first(href="/prod" style="height: 14px;")
+                                                                                        img(src="./img/dbackb.png")
+                                                                if(prev)
+                                                                        li
+                                                                                a#prev(href="/prod/pagenum="+prev style="padding: 6px 4px 4px 4px;height: 12px;")
+                                                                                        img(src="./img/backb.png")
+                                                                while n <= max
+                                                                        li
+                                                                                if(pno==n)
+                                                                                        a(href="/prod/pagenum="+n style="color: red;")=n++
+                                                                                else
+                                                                                        a(href="/prod/pagenum="+n)=n++
+
+                                                                if(ip != fp || check)
+                                                                        li
+                                                                                a#next(href="/prod/pagenum="+next style="padding: 6px 4px 4px 4px;height: 12px;")
+                                                                                        img(src="./img/forb.png")
+                                                                        li
+                                                                                a#final(href="/prod/pagenum="+pager.pagecnt style="height: 14px;")
+                                                                                        img(src="./img/dforb.png")
+
+include ../user/bot.jade
+        script.
+                $("#user").css("border-bottom","5px solid white");
+                $("#user").css("color","white");
+                $("#searchbtn").click(function(){  //검색
+                        var type=$("#searchtype option:selected").val();
+                        var val=$("#searchval").val();
+                        if(!val){
+                                alert("검색어를 입력해주세요");
+                                return;
+                        }
+                        location.href="/admin/member?page=1&type="+type+"&val="+val;
+                })
+                $("a[id=modi]").click(function(){  //회원정보수정 inputbox교체
+                        var tr=$(this).parent().parent().children();
+                        $(this).parent().parent().children(1).children("a").css("display","none");
+                        $(this).parent().parent().children(1).children("input").css("display","inline");
+                        $(this).parent().parent().children(6).children("#modi").css("display","none");
+                        $(this).parent().parent().children(6).children("#ok").css("display","flex");
+                        $(this).parent().parent().children(7).children("#delete").css("display","none");
+                        $(this).parent().parent().children(7).children("#close").css("display","flex");
+                });
+                $("a[id=delete]").click(function(){ //회원정보삭제
+                        $.ajax({
+                                url:"/admin/memdel",
+                                type:"post",
+                                dataType:'json',
+                                data:{'id':$(this).attr("name")},
+                                success: function(result){
+                                        if(result){
+                                                alert("해당 회원이 삭제 되었습니다.");
+                                                location.reload();
+                                        }else{
+                                                alert("회원 삭제가 실패 하였습니다.");
+                                        }
+                                }
+                        })
+                });
+                $("a[id=ok]").click(function(){ //회원정보수정완료
+                        var pid=$(this).attr("name");
+                        var id=$(this).parent().parent().children(1).children("input")[0].value;
+                        var pw=$(this).parent().parent().children(1).children("input")[1].value;
+                        var name=$(this).parent().parent().children(1).children("input")[2].value;
+                        var phone=$(this).parent().parent().children(1).children("input")[3].value;
+                        var email=$(this).parent().parent().children(1).children("input")[4].value;
+                        var birth=$(this).parent().parent().children(1).children("input")[5].value;
+                        $.ajax({
+                                url:"/admin/memmodi",
+                                type:"post",
+                                dataType:'json',
+                                data:{pid:pid,id:id,pw:pw,name:name,phone:phone,email:email,birth:birth},
+                                success: function(result){
+                                        if(result){
+                                                alert("해당 회원정보가 수정 되었습니다.");
+                                                location.reload();
+                                        }else{
+                                                alert("회원정보수정이 실패하였습니다.");
+                                        }
+                                }
+                        })
+                });
+                $("a[id=close]").click(function(){  //회원정보수정 취소 inputbox>>a
+                        $(this).parent().parent().children(1).children("a").css("display","block");
+                        $(this).parent().parent().children(1).children("input").css("display","none");
+                        $(this).parent().parent().children(6).children("#modi").css("display","flex");
+                        $(this).parent().parent().children(6).children("#ok").css("display","none");
+                        $(this).parent().parent().children(7).children("#delete").css("display","flex");
+                        $(this).parent().parent().children(7).children("#close").css("display","none");
+                });

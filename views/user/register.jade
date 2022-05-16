@@ -1,0 +1,108 @@
+include top.jade 
+        link(rel='stylesheet',href='./css/login.css')
+        link(rel='stylesheet',href='../css/login.css')
+        .box2
+                .contain
+                         form.table-cell#register(method="POST" action="/register")
+                                        input#idcheck(name='id', type='text' autocomplete="off" onkeyup="trim(this);" placeholder="아이디")
+                                        button#idck(type="button" style="width: 70px; background-color:rgb(189,189,189);") 중복검사
+                                        <br>
+                                        input#regipw(name='pw',type='Password' autocomplete="off" style="ime-mode:disabled" onkeyup="trim(this);" placeholder="비밀번호")
+                                        <br>
+                                        input#regipwok(name='pwok',type='Password' autocomplete="off" style="ime-mode:disabled" onkeyup="trim(this);" placeholder="비밀번호 확인") 
+                                        <br>
+                                        input#reginame(name='name',type='text' autocomplete="off" style="ime-mode: active;" onkeyup="trim(this);" placeholder="이름")
+                                        <br>
+                                        input#phone(name='phone',type='text' autocomplete="off" onkeyup="trim(this);" placeholder="핸드폰 번호")
+                                        <br>
+                                        input#addr(name='addr',type='text' autocomplete="off" onkeyup="trim(this);" placeholder="주소")
+                                        <br>
+                                button#regibtn(style="width: 80px; background-color:rgb(189,189,189);") 회원가입 
+include ../user/bot.jade
+                if(regiok)
+                        script.
+                                window.onload = function (){
+                                        $(".container").toggleClass("log-in");
+                                        $(".container-form").css("height","550px");
+                                }
+                script.
+                        var idsave=null; //아이디저장
+                        var emailsave=null; //이메일저장
+                        var ic="false"; //아이디체크
+                        var ec="false"; //이메일체크
+                        //공백제거
+                        function trim(obj){ //공백제거
+                                var a = $(obj).val().replace(/ /gi, '');
+                                $(obj).val(a);
+                                return;
+                        };
+                        //아이디 중복확인
+                        $("#idck").click(function(){
+                                var text = $("#idcheck").val();
+                                var regexp = /[0-9a-zA-Z;\-]/; // 숫자,영문,특수문자
+                                // var regexp = /[0-9]/; // 숫자만
+                                // var regexp = /[a-zA-Z]/; // 영문만
+                                if(text.length>20 || text.length<6){
+                                        alert("아이디는 6자에서 20자까지 가능합니다.");
+                                        
+                                        return;
+                                }for( var i=0; i<text.length; i++){
+                                        if(text.charAt(i) != " " && regexp.test(text.charAt(i)) == false ){
+                                                alert("특수문자는 입력할 수 없습니다.");
+                                               
+                                                return;
+                                }}
+                                var id=$("#idcheck").val();
+                                $.ajax({
+                                        url:"/register/idcheck",
+                                        dataType:'json',
+                                        type:"post",
+                                        data:{'id':id},
+                                        success: function(result){
+                                                if(result.result){
+                                                        alert("중복된 아이디입니다.");
+                                                        //- $('#idck').css("background-color","#3f8be9");
+                                                       
+                                                }else{
+                                                        alert("사용가능한 아이디입니다");
+                                                       
+                                                        idsave=$("#idcheck").val();
+                                                        ic="false";
+                                                }
+                                        }
+                                })
+                        });
+                        //회원가입
+                        $("#regibtn").click(function(){
+                                var id=$('#idcheck').val();
+                                var pw=$('#regipw').val();
+                                var name=$("#reginame").val();
+                                var pwok=$('#regipwok').val();
+                                var birth=$("#birth").val();
+                                var number=$("#phone").val();
+                                console.log(birth);
+                                if(id==''){
+                                        alert("아이디를 입력하세요.");
+                                       
+                                }else if(pw==''){
+                                        alert("비밀번호를 입력하세요.");
+                                }else if(pwok==''){
+                                        alert("비밀번호확인을 입력하세요.");
+                                }else if(name==''){
+                                        alert("이름을 입력하세요.");
+                                }else if(number==""){
+                                        alert("휴대폰번호를 입력하세요");
+                                }else if(pw.length>20 || pw.length<6){
+                                        alert("비밀번호는 6자에서 20자까지 가능합니다.");
+                                }else if(pw!=pwok){
+                                        alert("비밀번호가 일치하지 않습니다.");
+                                }else if(idsave!=id){
+                                        alert("아이디중복을 다시 확인 해주세요.");
+                                      
+                                        $("#idlbl")[0].innerText="아이디중복을 다시 확인 해주세요.";
+                                        ic="true";
+                                }else{
+                                        $('#register').submit();
+                                }
+                        })
+                       

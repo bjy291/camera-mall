@@ -1,0 +1,58 @@
+doctype html
+html
+        head
+                meta(charset='utf-8')
+                link(rel='stylesheet',href='./css/main.css')
+                link(rel='stylesheet',href='../css/main.css')
+                script(src='https://code.jquery.com/jquery-2.2.4.min.js')
+                script(src='//d1p7wdleee1q2z.cloudfront.net/post/search.min.js')
+        body
+                .topimp
+                        .inner
+                                .loginlist
+                                        nav
+                                                ul.login
+                                                        if(name)
+                                                                
+                                                                li: a(href="/login/logout") 로그아웃
+                                                                if(id!=root)
+                                                                        li: a(href="/user/information") 회원정보
+                                                                else
+                                                                        li: a a        
+                                                                li: a(href="/user/basket") 장바구니 
+                                                        else
+                                                                li: a(href="/login") 로그인
+                                                                li: a(href="/register") 회원가입
+                                                        
+                                                                li: a(href="/user/basket") 장바구니 
+                                                        li: a(href="/user/orderifm") 주문정보
+                                                    
+                .topdiv
+                        .search
+                                .searchtop
+                                          
+                                        .searchb
+                                                nav
+                                                        ul#main
+                                                                 a(href="/") Camera Shop 
+                                                
+
+                                                form(action="/prod/search" method="get")
+                                                        input#search3(type="text" name="search")
+                                                        button#search2 검색
+                                                       
+                                                
+                        nav.category
+                                ul#mainMenu
+                                        li: a(href='/prod') 니콘
+                                        li: a(href='/prod/Canon') 캐논
+                                        li: a(href='/prod/Sony') 소니
+                                        li: a(href='/prod/Lens') 악세사리
+                                        li: a(href='/help') 고객센터
+                                        
+                block content
+                script.
+                        $("#search").click(function(){
+                                $(".mainsearch").submit();
+                        })
+                        

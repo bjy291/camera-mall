@@ -1,0 +1,94 @@
+.rainbtn {
+        color:black;
+        width:80px;
+        margin:10px 0px 0px -45px;
+        border-radius: 2px;
+        display:flex;
+        height: 40px;
+        background-color: rgb(189,189,189);
+        align-items:center;
+        justify-content:center;
+        text-transform:uppercase;
+}
+.rainbtn:after {
+        
+        content:attr(alt);
+        color:black;
+        background-color:rgb(189,189,189);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+}
+.rainbtn:hover,.rainbtnlist:hover {
+        color: white;
+}
+.write{
+        margin-top:20px;
+        margin-left: 1100px;
+}
+.faq{
+        position: relative;
+        left: 0;
+        top: 20px;
+        width: 1200px;
+        margin:0px auto;
+        font-family: Maplestory_OTF;
+        overflow: hidden;
+}
+.faqtitle1{
+        display: inline-block;
+        top: 20px;
+        position: relative;
+        border-bottom: #777 2px solid;
+        width: 1180px;
+        margin: 0px 10px;
+}
+.faqtitle h3{
+        margin:0px;
+        margin-left: 110px;
+        display: inline-block;
+}
+.faqlist{
+        margin: 20px 100px;
+}
+.faqtable{
+        border-left: 2px solid #777;
+        width:1000px;
+        border-collapse: collapse;
+}
+.faqtable thead{
+        background-color: rgb(189,189,189);
+        border:1px solid #777;
+        height: 40px;
+}
+.faqtable th:nth-child(1){
+        width:10%;
+}
+.faqtable th:nth-child(2){
+        width:90%;
+        
+}
+.faqtable tr{
+        
+        width:1180px;
+        border-top:2px solid #777;
+        border-bottom:2px solid #777;
+        border-right:2px solid #777;
+}
+.faqtable td{
+        
+        border:2px solid #777;
+        height: 30px;
+        font-size: 13px;
+}
+.faqtable td:nth-child(1){
+        text-align: center;
+}
+#faqtext{
+        text-align: left;
+        padding: 20px 70px;
+}
+#title{
+        cursor: pointer;
+        color:rgb(116, 46, 46);
+}

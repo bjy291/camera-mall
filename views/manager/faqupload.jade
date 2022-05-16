@@ -1,0 +1,34 @@
+include ../user/top.jade 
+                link(rel='stylesheet',href='../css/management.css')
+                link(rel='stylesheet',href='../css/faq.css')
+                .faq
+                        .faqtitle
+                         h3 고객센터
+                        .faqlist
+                                form#frm(action="/admin/faqupload" method="post")
+                                        table.faqtable
+                                                  tbody
+                                                        tr
+                                                          th 제목
+                                                          td: input#title(type="text" name="title")
+                                                        tr 
+                                                         th 내용
+                                                         td: textarea#explan(name="text", cols="32", rows="12")
+                                a.rainbtn#upload(alt="등록" style="margin-left: 820px; margin-top:20px" )
+                                a.rainbtn(alt="취소" href='/help' style="margin-left: 920px; margin-top:-40px;")                                                                                       
+        script.
+                $("#faq").css("border-bottom","5px solid white");
+                $("#faq").css("color","white");
+                $("#upload").click(function(){
+                        if(!$("#title").val()){
+                                alert("제목을 입력하세요");
+                                return;
+                        }else if(!$("#explan").val()){
+                                alert("내용을 입력하세요");
+                                return;
+                        }else{
+                                $("#frm").submit();
+                        }
+                })
+                
+                

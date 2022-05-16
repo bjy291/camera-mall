@@ -1,0 +1,143 @@
+include ../user/top.jade
+                link(rel='stylesheet',href='../css/payment.css')
+                .payment
+                        .paymenttitle(style="margin-left: 180px;width: 1010px;")
+                                h2 주문정보
+                        .list
+                                        .link-container
+                                                ul
+                                                        li
+                                                                a(href='/user/basket') 장바구니
+                                                        li
+                                                                a(href='/user/orderifm' style="color:black;font-weight:bold") 주문 조회
+                        .orderlist
+                                table.orderifmtable
+                                        thead
+                                                tr
+                                                        th 주문일자
+                                                        th 상품
+                                                        th 수량
+                                                        th 가격
+                                                        th 상태
+                                        tbody
+                                                each order in orders
+                                                        tr(data-num=order.onum)
+                                                                td
+                                                                        p.up=new Date(order.order_date).format("yyyy-MM-dd")
+                                             
+                                                                td
+                                                                        img(src="../dbimg/"+order.img_name)
+                                                                        span#comp(style="font-size:20px")=order.prod_comp
+                                                                        span#name(style="font-size:30px; margin-top:30px")=order.prod_name
+                                                                        
+                                                                td
+                                                                        span(style="margin-left:50px;")=order.cnt
+                                                                td
+                                                                        -var price=order.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                                                        span(style="margin-left:40px;").up=price+"원"
+                                                                       
+                                                                if(order.status==0)
+                                                                        td
+                                                                                span(style="margin-left:30px;")  입금전
+                                                                if(order.status==1)
+                                                                        td
+                                                                                span(style="margin-left:30px;") 입금완료
+                                                                if(order.status==2)
+                                                                        td
+                                                                                span(style="margin-left:30px;") 배송준비
+                                                                if(order.status==3)
+                                                                        td
+                                                                                span(style="margin-left:30px;") 배송중
+                                                                if(order.status==4)
+                                                                        tdtd
+                                                                                span(style="margin-left:30px;") 
+                                                                                p 배송완료
+                                                                                //a#orderinfo.buycon(data-opnum=order.opnum) 구매확정
+                                                                if(order.status==5)
+                                                                        td 
+                                                                                p 구매확정
+                                                                                //a#orderinfo.review(data-opnum=order.opnum data-num=order.num) 리뷰작성
+                                                                if(order.status==6)
+                                                                        td 주문취소
+                                        
+                .pagingdiv
+                        .paging
+                                -var pover=Math.trunc(pager.pagecnt/10)
+                                if(pover)
+                                        if(pno<11)
+                                                - var n = 1 //시작페이지
+                                                - var max=10 //끝페이지
+                                                - var next=11 //다음10페이지
+                                                - var check=1 //다음,마지막페이지 체크
+                                        else
+                                                - var n=pno%10 ==0 ? (Math.trunc(pno/10)-1)*10+1 : Math.trunc(pno/10)*10+1 //시작페이지
+                                                - var ip=Math.trunc(n/10) //시작페이지앞자리
+                                                - var fp=Math.trunc(pager.pagecnt/10) //마지막페이지앞자리
+                                                -var pna=pager.pagecnt-n //잔여페이지수
+                                                -var next=(ip+1)*10+1 //다음10페이지
+                                                -var prev=ip*10 //전10페이지
+                                                if(ip == fp)
+                                                        -var max=n+pna
+                                                else
+                                                        -var max=n+9
+                                else
+                                        - var n = 1
+                                        - var max=pager.pagecnt
+                                span
+                                        ul
+                                                if(pno>10)
+                                                        li
+                                                                a#first(href="/user/" style="height: 14px;")
+                                                                        img(src="../img/dbackb.png")
+                                                if(prev)
+                                                        li
+                                                                a#prev(href="/user/orderifm="+prev style="padding: 6px 4px 4px 4px;height: 12px;")
+                                                                        img(src="../img/backb.png")
+                                                while n <= max
+                                                        li
+                                                                if(pno==n)
+                                                                        a(href="/user/orderifm="+n style="color: #fff;border: 1px solid gray;background-color: gray;")=n++
+                                                                else
+                                                                        a(href="/user/orderifm="+n)=n++
+
+                                                if(ip != fp || check)
+                                                        li
+                                                                a#next(href="/user/orderifm="+next style="padding: 6px 4px 4px 4px;height: 12px;")
+                                                                        img(src="../img/forb.png")
+                                                        li
+                                                                a#final(href="/user/orderifm="+pager.pagecnt style="height: 14px;")
+                                                                        img(src="../img/dforb.png")
+include ../user/bot.jade
+                script.
+                        $("a[class=review]").click(function(){
+                                var num=$(this)[0].dataset.num;
+                                var opnum=$(this)[0].dataset.opnum;
+                                var url="/user/review?num="+num+"&opnum="+opnum;
+                                window.open(url,"","width=660,height=700,left=600");
+                                //- location.href="/user/orderinfo?no="+num;
+                        })
+                        $("a[class=buycon]").click(function(){
+                                var opnum=$(this)[0].dataset.opnum;
+                                $.ajax({
+                                        url:"/user/buyconfirm",
+                                        type:"post",
+                                        data:{opnum:opnum},
+                                        success: function(result){
+                                                if(result=='true'){
+                                                        alert("해당 상품이 구매확정되었습니다.");
+                                                        location.reload();
+                                                }
+                                        }
+                                })
+                        })
+                        $("a[class=orderinfo]").click(function(){
+                                var num=$(this)[0].dataset.onum;
+                                location.href="/user/orderinfo?no="+num;
+                        })
+                        $(".col4").each(function() {
+                                var rows = $(".col4:contains('" + $(this).text() + "')");
+                                if (rows.length > 1) {
+                                        rows.eq(0).attr("rowspan", rows.length);
+                                        rows.not(":eq(0)").remove();
+                                }
+                        });
