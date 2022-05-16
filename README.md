@@ -1,6 +1,8 @@
 # camera-mall
 
 ## 2학년 개인 프로젝트 Node.js 사용해보기
+- [쇼핑몰최종.pptx](https://github.com/bjy291/camera-mall/files/8698081/default.pptx)
+
 
 ## 개발환경
 - Node.js 
